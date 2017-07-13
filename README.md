@@ -1,0 +1,1 @@
+This plugin add a button "Print" in your grid header menu

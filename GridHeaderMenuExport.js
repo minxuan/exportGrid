@@ -1,5 +1,5 @@
 /*!
- * Ext JS Library 3.3.1
+ * Ext JS Library 3.4
  * Copyright(c) 2006-2017 Sencha Inc.
  * licensing@sencha.com
  * http://www.sencha.com/license
@@ -61,7 +61,7 @@ Ext.ux.grid.GridHeaderMenuExport = Ext.extend(Ext.util.Observable, {
                 res.push(uneLigne.json);
             });
             if (res.length > 0) {
-				// TODO: you can do anything you want here, for exemple, export datas to server
+                // TODO: you can do anything you want here, for exemple, export datas to server
                 // YourProject.DownloadFile({
                 //     url     : '/export/export-excel/',
                 //     params  : {datas: Ext.encode(res)},
