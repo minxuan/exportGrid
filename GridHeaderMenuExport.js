@@ -12,10 +12,32 @@
  *     background-image: url(../javascript/extjs/resources/icons/fam/printer.png);
  *     background-repeat: no-repeat;
  * }
+ * And, you need to decide whot to do with your grid datas
  */
 Ext.ns('Ext.ux.grid');
 
 Ext.ux.grid.GridHeaderMenuExport = Ext.extend(Ext.util.Observable, {
+
+    /**
+     * parameters to be defined
+     */
+
+    // text of button
+    exportText: 'Print',
+    // TODO: class css to be creat in project css, exemple :
+    // .xg-hmenu-print{
+    //     background-image: url(../javascript/extjs/resources/icons/fam/printer.png);
+    //     background-repeat: no-repeat;
+    //  }
+    clsCss: 'xg-hmenu-print',
+    // call ajax for export datas in a xlsx file
+    exportExcel: function(datas) {
+        // It's your time now :)
+    },
+
+    /**
+     * plugin
+     */
 
     constructor: function(config){
         this.config = config;
@@ -26,50 +48,37 @@ Ext.ux.grid.GridHeaderMenuExport = Ext.extend(Ext.util.Observable, {
     },
 
     viewConfig: {
-        exportText: 'Print',
 
-        // ajouter un lien "Export" dans la liste deroulante
+        // add a button "Print" in grid header menu
         afterRenderUI: function(){
+
             this.constructor.prototype.afterRenderUI.apply(this, arguments);
             if(this.grid.enableExport !== false){
                 this.hmenu.add(
                     '-',
                     {
                         itemId  : 'export',
-                        text    : this.exportText,
-                        // TODO: class css to be creat in project css, exemple :
-                        // .xg-hmenu-print{
-                        //     background-image: url(../javascript/extjs/resources/icons/fam/printer.png);
-                        //     background-repeat: no-repeat;
-                        //  }
-                        cls     : 'xg-hmenu-print',
+                        text    : Ext.ux.grid.GridHeaderMenuExport.prototype.exportText,
+                        cls     : Ext.ux.grid.GridHeaderMenuExport.prototype.clsCss,
                         scope   : this,
-                        // in this plugin, the handler export all datas to SERVER
-                        // but you can creat your own handler to do any thing you want
-                        handler : this.exportExcel
+                        handler : this.getDatas
                     }
                 );
             }
         },
 
-        // appel ajax pour exporter un fichier xlsx
-        exportExcel: function() {
+        // get grid datas
+        // in this plugin, the handler export all datas to server
+        // but you can creat your own handler to do any thing you want
+        getDatas: function() {
             var g = this.grid,
-                res = [];
+                datas = [];
             g.getStore().data.each(function(uneLigne){
                 // TODO: you can prepare data here, before push
-                res.push(uneLigne.json);
+                datas.push(uneLigne.json);
             });
-            if (res.length > 0) {
-                // TODO: you can do anything you want here, for exemple, export datas to server
-                // YourProject.DownloadFile({
-                //     url     : '/export/export-excel/',
-                //     params  : {datas: Ext.encode(res)},
-                //     prepare : true
-                // });
-            } else {
-                Ext.Msg.info("Information", "You don't have anything to export");
-            }
+            // TODO: you can do anything you want here, for exemple, export datas to server
+            Ext.ux.grid.GridHeaderMenuExport.prototype.exportExcel(datas);
         }
     }
 });
